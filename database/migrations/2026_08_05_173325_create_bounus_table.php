@@ -11,18 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('expenses', function (Blueprint $table) {
+        Schema::create('bouns', function (Blueprint $table) {
             $table->id();
-            // ログインしたユーザーのIDを保存するカラム
             $table->foreignId('user_id')
             ->constrained()
             ->onDelete('cascade');
-            $table->date('expense_date');
-
-            $table->unsignedInteger('expense_amount');
-            $table->text('expense_memo')->nullable();
-
-            
+            $table->date('bonus_date');
+            $table->unsignedInteger('bonus_amount');
+            $table->text('bonus_memo')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('expenses');
+        Schema::dropIfExists('bouns');
     }
 };

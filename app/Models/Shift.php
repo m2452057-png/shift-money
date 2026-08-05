@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Shift extends Model
 {
+    protected $table = 'shifts'; // テーブル名を指定
 
 // shiftsテーブルへまとめて保存・更新できるカラム
     protected $fillable = [
