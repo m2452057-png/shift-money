@@ -288,7 +288,7 @@
     @csrf
     <div id="expenseForm" class="tab-content" style="display: none;">
 
-       
+    
 
             <h1 class="title">
                 <i class="bi bi-cart-x"></i>
