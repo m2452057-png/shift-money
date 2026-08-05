@@ -67,6 +67,16 @@
     ========================== -->
     <form method="POST" action="{{ route('shift.store') }}">
         @csrf
+            {{-- 入力エラーがある場合にメッセージを表示する --}}
+    @if ($errors->any())
+        <div class="error-messages">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
         <div id="shiftForm" class="tab-content">
 
 
@@ -120,7 +130,7 @@
 
                         <input
                             id="start-time"
-                        
+                            value="{{ old('start-time') }}"
                             class="input"
                             type="number"
                             placeholder="時"
@@ -134,6 +144,7 @@
 
                         <input
                             id="start-minute"
+                            value="{{ old('start-minute') }}"
                             class="input"
                             type="number"
                             placeholder="分"
@@ -165,6 +176,7 @@
 
                         <input
                             id="end-time"
+                            value="{{ old('end-time') }}"
                             class="input"
                             type="number"
                             placeholder="時"
@@ -179,6 +191,7 @@
 
                         <input
                             id="end-minute"
+                            value="{{ old('end-minute') }}"
                             class="input"
                             type="number"
                             placeholder="分"
@@ -213,6 +226,7 @@
                     id="wage"
                     class="input"
                     type="number"
+                    value="{{ old('wage') }}"
                     placeholder="例：1160"
                     min="0"
                     onwheel="this.blur();"
@@ -239,6 +253,7 @@
 
                     <input
                         id="break-time"
+                        value="{{ old('break-time') }}"
                         class="input"
                         type="number"
                         placeholder="時間"
@@ -251,6 +266,7 @@
 
                     <input
                         id="break-minute"
+                        value="{{ old('break-minute') }}"
                         class="input"
                         type="number"
                         placeholder="分"
@@ -311,6 +327,7 @@
 
                 <input
                     id="rouhi-date"
+                    value="{{ old('rouhi-date') }}"
                     name="rouhi-date"
                     class="input"
                     type="date"
@@ -335,6 +352,7 @@
 
                 <input
                     id="rouhi-total"
+                    value="{{ old('rouhi-total') }}"
                     class="input"
                     type="number"
                     placeholder="例：3000"
@@ -361,6 +379,7 @@
 
                 <textarea
                     id="rouhi-memo"
+                    value="{{ old('rouhi-memo') }}"
                     class="input textarea"
                     name="rouhi-memo"
                     rows="4"
@@ -421,7 +440,7 @@
                     id="bounus-date"
                     class="input"
                     type="date"
-                    value="{{ request()->query('date') }}"
+                    value="{{ old('bounus-date', request()->query('date')) }}"
                     name="bounus-date"
                 >
 
@@ -443,6 +462,7 @@
 
                 <input
                     id="bounus-total"
+                    value="{{ old('bounus-total') }}"
                     class="input"
                     type="number"
                     placeholder="例：5000"
@@ -471,6 +491,7 @@
                 <textarea
                     id="bounus-memo"
                     class="input textarea"
+                    value="{{ old('bounus-memo') }}"
                     rows="4"
                     placeholder="ボーナスの内容を入力"
                     name="bounus-memo"

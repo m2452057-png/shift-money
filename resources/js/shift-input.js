@@ -3,9 +3,9 @@
 // タブ取得
 // ==========================
 
-const shiftTab = document.getElementById("shift-tab");
-const expenseTab = document.getElementById("expense-tab");
-const bonusTab = document.getElementById("bonus-tab");
+const shiftTab = document.getElementById("shiftTab");
+const expenseTab = document.getElementById("expenseTab");
+const bonusTab = document.getElementById("bonusTab");
 
 // ==========================
 // 画面取得

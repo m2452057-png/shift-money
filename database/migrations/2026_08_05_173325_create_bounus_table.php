@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bouns', function (Blueprint $table) {
+        Schema::create('bounus', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')
             ->constrained()
             ->onDelete('cascade');
-            $table->date('bonus_date');
-            $table->unsignedInteger('bonus_amount');
-            $table->text('bonus_memo')->nullable();
+            $table->date('bounus_date');
+            $table->unsignedInteger('bounus_amount');
+            $table->text('bounus_memo')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bouns');
+        Schema::dropIfExists('bounus');
     }
 };
