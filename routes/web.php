@@ -43,4 +43,11 @@ Route::middleware('auth')
     ->name('expenses.store');
     Route::post('/bonus-input',[BonusController::class, 'store'])
     ->name('bonus.store');
+
+    Route::resource('shifts', ShiftController::class)
+    ->only(['index', 'edit', 'update', 'destroy']);
+    Route::resource('expenses', RouhiController::class)
+    ->only(['index', 'edit', 'update', 'destroy']);
+    Route::resource('bonuses', BonusController::class)
+    ->only(['index', 'edit', 'update', 'destroy']);
 });

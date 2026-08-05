@@ -11,18 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('shifts', function (Blueprint $table) {
+        Schema::create('expenses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')
             ->constrained()
             ->onDelete('cascade');
+            $table->date('expense_date');
+            $table->string('expense_name');
+            $table->unsignedInteger('expense_amount');
+            $table->text('expense_memo')->nullable();
+
             
-            $table->date('shift_date');
-            $table->time('start_time');
-            $table->time('end_time');
-            $table->unsignedInteger('wage'); // 時給（円）
-            $table->unsignedInteger('break_duration')->default(0); // break_timeを指定しない → 0を保存
-            $table->unsignedInteger('salary');// 給与（円）
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('shifts');
+        Schema::dropIfExists('expenses');
     }
 };
