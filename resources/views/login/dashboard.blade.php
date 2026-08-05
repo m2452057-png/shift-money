@@ -161,6 +161,9 @@
 
             // Controllerから渡された予定
             events: @json($events ?? []),
+            // イベントタイトル内の<br>をHTMLの改行として表示する
+            eventContent: function (info) {
+                return {html: info.event.title.replace(/\n/g, '<br>')};},
 
             headerToolbar: {
                 left: 'prev,next today',

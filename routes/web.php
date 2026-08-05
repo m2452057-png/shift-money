@@ -32,9 +32,9 @@ Route::middleware('auth')
     Route::get('/shift-input', function () {
         return view('login.shift-input');
     })->name('shift-input');
-    Route::get('/shift-edit', function () {
-        return view('login.shift-edit');
-    })->name('shift-edit');
+
+
+
 
     // それぞれシフトボーナス浪費計算処理
     Route::post('/shift-input', [ShiftController::class, 'store'])
@@ -44,10 +44,14 @@ Route::middleware('auth')
     Route::post('/bonus-input',[BonusController::class, 'store'])
     ->name('bonus.store');
 
+    // 一覧・編集・更新・削除
     Route::resource('shifts', ShiftController::class)
     ->only(['index', 'edit', 'update', 'destroy']);
     Route::resource('expenses', RouhiController::class)
     ->only(['index', 'edit', 'update', 'destroy']);
     Route::resource('bonuses', BonusController::class)
     ->only(['index', 'edit', 'update', 'destroy']);
+
+    Route::get('/dashboard', [ShiftController::class, 'dashboard'])
+    ->name('dashboard');
 });
