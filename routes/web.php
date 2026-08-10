@@ -11,7 +11,7 @@ Route::get('/', function () {
 
     return redirect('/login');
 
-});
+})->name('login');
 // ログイン画面
 Route::get('/login', [LoginController::class, 'index'])
 ->name('login.index');
@@ -54,4 +54,5 @@ Route::middleware('auth')
 
     Route::get('/dashboard', [ShiftController::class, 'dashboard'])
     ->name('dashboard');
+
 });

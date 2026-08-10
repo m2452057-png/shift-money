@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Carbon\Carbon;
+use App\Models\Bonus;
+use App\Models\Expense;
 
 
 // PHPの処理
@@ -31,7 +33,7 @@ public function store(Request $request)
         'wage' => 'required|integer|min:0',
         'break-time' => 'nullable|integer|min:0',
         'break-minute' => 'nullable|numeric|min:0|max:59',
-    ]);
+        ]);
     // 入力されていない休憩時間は0にする
     $breakTime = (int)($validated['break-time'] ?? 0);
     $breakMinute = (int)($validated['break-minute'] ?? 0);
@@ -48,7 +50,7 @@ public function store(Request $request)
       $breakTime,
       $breakMinute
 
-);
+      );
      //  DB保存
    // 休憩時間を分単位に変換 DBに保存するため DBはunsignedInteger(整数)だから
      $breakDuration = $breakTime * 60 + $breakMinute;
@@ -76,7 +78,7 @@ public function store(Request $request)
     ]);
 
     return redirect()->route('dashboard')->with('success', 'シフトが保存されました。');
-}
+  }
 
 
 
@@ -161,10 +163,16 @@ if($startHours>=22 &&$endHours<=29){
 return (int) floor($total);
 
 }
+
 public function dashboard(): View
 {
     // ログインユーザーのシフトを取得
-    $shifts = Shift::where('user_id', Auth::id())->get();
+    $shifts = Shift::where('user_id', Auth::id())
+    ->get();
+    $expenses = Expense::where('user_id', Auth::id())
+    ->get();
+    $bonuses = Bonus::where('user_id', Auth::id())
+    ->get();
 
     $events = [];
 
@@ -179,23 +187,91 @@ public function dashboard(): View
             . number_format($shift->salary)
             . '円';
 
+
         // 時刻と給与をつなげる
         $title = $shiftTime . "\n" . $shiftSalary;
+
 
         // カレンダーへ渡すデータ
         $events[] = [
             'id' => $shift->id,
             'title' => $title,
             'start' => $shift->shift_date,
+            'end' => $shift->shift_date,
+            'start_time' => $shift->start_time,
+            'end_time' => $shift->end_time,
+
+
+             // 終日予定にしない
+            'allDay' => false,
             'backgroundColor' => '#3b82f6',
             'borderColor' => '#3b82f6',
+            'url' => route('shifts.edit', ['shift' => $shift->id]),
+        ];
+        
+    }
+    foreach($expenses as $expense){
+        // 浪費金額から「¥5,000円」を作る
+        $expenseAmount = '¥'
+            . number_format($expense->expense_amount)
+            . '円'
+            .($expense->expense_memo ? "\n" . $expense->expense_memo : '')
+            ;
+
+        // 浪費金額をタイトルにする
+        $title = $expenseAmount;
+
+        // カレンダーへ渡すデータ
+        $events[] = [
+            'id' =>'expense-' .  $expense->id,
+            'title' => $title,
+            'start' => $expense->expense_date,
+            'end' => $expense->expense_date,
+            'allDay' => true,
+            'backgroundColor' => 'red',
+            'borderColor' => 'red',
+            'url' => route('expenses.edit', ['expense' => $expense->id]),
+        ];
+    }
+    foreach ($bonuses as $bonus) {
+        // ボーナス金額から「¥5,000円」を作る
+        $bonusAmount = '¥'
+            . number_format($bonus->bonus_amount)
+            . '円'
+            .($bonus->bonus_memo ? "\n" . $bonus->bonus_memo : '')
+            ;
+
+        // ボーナス金額をタイトルにする
+        $title = $bonusAmount;
+
+        // カレンダーへ渡すデータ
+        $events[] = [
+            'id' =>'bonus-' .  $bonus->id,
+            'title' => $title,
+            'start' => $bonus->bonus_date,
+            'end' => $bonus->bonus_date,
+            'allDay' => true,
+            'backgroundColor' => 'green',
+            'borderColor' => 'green',
+            'url' => route('bonuses.edit', ['bonus' => $bonus->id]),
         ];
     }
 
     return view('login.dashboard', compact('events'));
 }
+
+public function edit(Shift $shift): View
+{
+   abort_unless($shift->user_id === Auth::id(), 403);
+   return view('login.shift-edit', [
+    
+        'shift' => $shift,
+        'activeTab' => 'shift',
+   ]);
+
+
         
     }
 
-
+}
 
