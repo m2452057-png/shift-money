@@ -158,6 +158,7 @@
             showNonCurrentDates: false,
             eventDisplay: 'block',
             displayEventEnd: true,
+            
 
             // Controllerから渡された予定
             events: @json($events ?? []),

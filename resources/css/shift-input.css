@@ -133,7 +133,7 @@ body {
 
 /* 保存ボタン */
 .save {
-  background-color: #89adfc;
+  background-color: #3b82f6;
 }
 
 .save:hover {
@@ -156,6 +156,12 @@ body {
 
 .bonus:hover {
   background-color: #134525;
+}
+
+.btn.delete {
+  background-color: black;
+  color: white;
+
 }
 
 

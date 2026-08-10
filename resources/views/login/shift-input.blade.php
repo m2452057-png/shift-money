@@ -27,7 +27,7 @@
 <div class="container">
 
     <!-- =========================
-  シフト・浪費・ボーナスタブ
+シフト・浪費・ボーナスタブ
     ========================== -->
         <div class="card">
     <div class="tabs main-tabs">
@@ -318,7 +318,7 @@
 
                 <label
                     class="label"
-                    for="rouhi-date"
+                    for="expense-date"
                 >
                     <i class="bi bi-calendar-event"></i>
 
@@ -326,12 +326,12 @@
                 </label>
 
                 <input
-                    id="rouhi-date"
-                    value="{{ old('rouhi-date') }}"
-                    name="rouhi-date"
+                    id="expense-date"
+                    value="{{ old('expense-date', request()->query('date')) }}"
+                    name="expense-date"
                     class="input"
                     type="date"
-                    value="{{ request()->query('date') }}"
+        
                 >
 
             </div>
@@ -343,7 +343,7 @@
 
                 <label
                     class="label"
-                    for="rouhi-total"
+                    for="expense-amount"
                 >
                     <i class="bi bi-cash"></i>
 
@@ -351,13 +351,13 @@
                 </label>
 
                 <input
-                    id="rouhi-total"
-                    value="{{ old('rouhi-total') }}"
+                    id="expense-amount"
+                    value="{{ old('expense-amount', request()->query('amount')) }}"
                     class="input"
                     type="number"
                     placeholder="例：3000"
                     min="0"
-                    name="rouhi-total"
+                    name="expense-amount"
                     onwheel="this.blur();"
                 >
 
@@ -370,7 +370,7 @@
 
                 <label
                     class="label"
-                    for="rouhi-memo"
+                    for="expense-memo"
                 >
                     <i class="bi bi-pencil-square"></i>
 
@@ -378,10 +378,10 @@
                 </label>
 
                 <textarea
-                    id="rouhi-memo"
-                    value="{{ old('rouhi-memo') }}"
+                    id="expense-memo"
+                    value="{{ old('expense-memo', request()->query('memo')) }}"
                     class="input textarea"
-                    name="rouhi-memo"
+                    name="expense-memo"
                     rows="4"
                     placeholder="何に使ったか入力"
                 ></textarea>
@@ -394,7 +394,7 @@
             <div class="buttons">
 
                 <button
-                    id="rouhi-button"
+                    id="expense-button"
                     class="btn expense"
                     type="submit"
                 >
@@ -413,6 +413,16 @@
     ========================== -->
 <form method="POST" action="{{ route('bonus.store') }}">
     @csrf
+    {{-- 入力エラーがある場合にメッセージを表示する --}}
+    @if ($errors->any())
+        <div class="error-messages">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div id="bonusForm" class="tab-content" style="display: none;">
             <h1 class="title">
 
@@ -429,7 +439,7 @@
 
                 <label
                     class="label"
-                    for="bounus-date"
+                    for="bonus-date"
                 >
                     <i class="bi bi-calendar-event"></i>
 
@@ -437,11 +447,11 @@
                 </label>
 
                 <input
-                    id="bounus-date"
+                    id="bonus-date"
                     class="input"
                     type="date"
-                    value="{{ old('bounus-date', request()->query('date')) }}"
-                    name="bounus-date"
+                    value="{{ old('bonus-date', request()->query('date')) }}"
+                    name="bonus-date"
                 >
 
             </div>
@@ -453,7 +463,7 @@
 
                 <label
                     class="label"
-                    for="bounus-total"
+                    for="bonus-amount"
                 >
                     <i class="bi bi-cash-stack"></i>
 
@@ -461,15 +471,15 @@
                 </label>
 
                 <input
-                    id="bounus-total"
-                    value="{{ old('bounus-total') }}"
+                    id="bonus-amount"
+                    value="{{ old('bonus-amount') }}"
                     class="input"
                     type="number"
                     placeholder="例：5000"
                     min="0"
                     onwheel="this.blur();"
-                    value="{{ old('bounus-total') }}"
-                    name="bounus-total"
+                    value="{{ old('bonus-amount') }}"
+                    name="bonus-amount"
                 >
 
             </div>
@@ -481,7 +491,7 @@
 
                 <label
                     class="label"
-                    for="bounus-memo"
+                    for="bonus-memo"
                 >
                     <i class="bi bi-pencil-square"></i>
 
@@ -489,12 +499,12 @@
                 </label>
 
                 <textarea
-                    id="bounus-memo"
+                    id="bonus-memo"
                     class="input textarea"
-                    value="{{ old('bounus-memo') }}"
+                    value="{{ old('bonus-memo') }}"
                     rows="4"
                     placeholder="ボーナスの内容を入力"
-                    name="bounus-memo"
+                    name="bonus-memo"
                 ></textarea>
 
             </div>
@@ -504,7 +514,7 @@
 
             <div class="buttons">
 
-            <button id="bounus-button" class="btn bonus" type="submit">
+            <button id="bonus-button" class="btn bonus" type="submit">
             <i class="bi bi-plus-circle"></i>
             入力
             </button>

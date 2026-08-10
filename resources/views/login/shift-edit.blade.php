@@ -1,3 +1,12 @@
+@isset($shift)
+@php
+[$startHour, $startMinute] = explode(':', $shift->start_time);
+[$endHour, $endMinute] = explode(':', $shift->end_time);
+
+   $breakHour = intdiv((int) $shift->break_duration, 60);
+    $breakMinute = (int) $shift->break_duration % 60;
+@endphp
+@endisset
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -29,7 +38,7 @@
     <!-- =========================
   シフト・浪費・ボーナスタブ
     ========================== -->
-        <div class="card">
+    <div class="card">
     <div class="tabs main-tabs">
 
         <button
@@ -65,13 +74,12 @@
     <!-- =========================
   　　　シフト入力画面
     ========================== -->
+    @isset($shift)
+    <form method="POST" action="{{ route('shifts.update', ['shift' => $shift->id]) }}">
+        @csrf
+        @method('PUT')
 
-    <div
-        id="shiftForm"
-        class="tab-content"
-    >
-
-
+   
 
             <h1 class="title">
                 <i class="bi bi-calendar-check"></i>
@@ -95,7 +103,7 @@
                     id="work_date"
                     class="input"
                     type="date"
-                    value="{{ old('work_date', request('date')) }}"
+                    value="{{ old('work_date', $shift->work_date) }}"
                 >
 
             </div>
@@ -127,6 +135,9 @@
                             min="0"
                             max="23"
                             onwheel="this.blur();"
+                            name="start_time"
+                            value="{{ old('start_time', $startHour) }}"
+
                         >
 
                         <span class="time-colon">：</span>
@@ -139,7 +150,9 @@
                             min="0"
                             max="59"
                             onwheel="this.blur();"
-                        >
+                            name="start_minute"
+                            value="{{ old('start_minute', $startMinute) }}"
+
 
                     </div>
 
@@ -169,6 +182,8 @@
                             min="0"
                             max="23"
                             onwheel="this.blur();"
+                            name="end_time"
+                            value="{{ old('end_time', $endHour) }}"
                         >
 
                         <span class="time-colon">：</span>
@@ -181,13 +196,15 @@
                             min="0"
                             max="59"
                             onwheel="this.blur();"
-                        >
+                            name="end_minute"
+                            value="{{ old('end_minute', $endMinute) }}"     
 
                     </div>
 
                 </div>
 
             </div>
+
 
 
             <!-- 時給 -->
@@ -210,6 +227,7 @@
                     placeholder="例：1160"
                     min="0"
                     onwheel="this.blur();"
+                    value="{{ old('wage', $shift->wage) }}"
                 >
 
             </div>
@@ -237,6 +255,9 @@
                         placeholder="時間"
                         min="0"
                         onwheel="this.blur();"
+                        name="break_time"
+                        value="{{ old('break_time', $breakHour) }}"
+
                     >
 
                     <span class="time-colon">：</span>
@@ -249,6 +270,9 @@
                         min="0"
                         max="59"
                         onwheel="this.blur();"
+                        name="break_minute"
+                        value="{{ old('break_minute', $breakMinute) }}"
+
                     >
 
                 </div>
@@ -263,7 +287,7 @@
                 <button
                     id="saveButton"
                     class="btn save"
-                    type="button"
+                    type="submit"
                 >
                     <i class="bi bi-floppy"></i>
 
@@ -271,8 +295,28 @@
                 </button>
 
             </div>
+            
+            <div class="buttons">
+
+                <button
+                    id="deleteButton"
+                    class="btn delete"
+                    type="submit"
+                    onclick="return confirm('本当に削除しますか？');"
+
+                >
+                    <i class="bi bi-trash"></i>
+
+                    削除
+                </button>
+
+            </div>
 
         </div>
+        </form>
+    @endisset
+       
+       
 
   
 
@@ -280,12 +324,12 @@
     <!-- =========================
     浪費入力画面
     ========================== -->
+    @isset($expense)
+    <form method="POST" action="{{ route('expenses.update', ['expense' => $expense->id]) }}">
+        @csrf
+        @method('PUT')
 
-    <div
-        id="expenseForm"
-        class="tab-content"
-        style="display: none;"
-    >
+    
 
        
 
@@ -304,7 +348,7 @@
 
                 <label
                     class="label"
-                    for="rouhiDate"
+                    for="expenseDate"
                 >
                     <i class="bi bi-calendar-event"></i>
 
@@ -312,9 +356,10 @@
                 </label>
 
                 <input
-                    id="rouhiDate"
+                    id="expenseDate"
                     class="input"
                     type="date"
+                    value="{{ old('expense_date', $expense->expense_date) }}"       
                 >
 
             </div>
@@ -326,7 +371,7 @@
 
                 <label
                     class="label"
-                    for="rouhiTotal"
+                    for="expenseTotal"
                 >
                     <i class="bi bi-cash"></i>
 
@@ -334,12 +379,14 @@
                 </label>
 
                 <input
-                    id="rouhiTotal"
+                    id="expenseTotal"
                     class="input"
                     type="number"
                     placeholder="例：3000"
+                    name="expense_amount"
                     min="0"
                     onwheel="this.blur();"
+                    value="{{ old('expense_amount', $expense->expense_amount) }}"
                 >
 
             </div>
@@ -351,7 +398,7 @@
 
                 <label
                     class="label"
-                    for="rouhiMemo"
+                    for="expenseMemo"
                 >
                     <i class="bi bi-pencil-square"></i>
 
@@ -359,11 +406,14 @@
                 </label>
 
                 <textarea
-                    id="rouhiMemo"
+                    id="expenseMemo"
                     class="input textarea"
                     rows="4"
                     placeholder="何に使ったか入力"
-                ></textarea>
+                    name="expense_memo"
+                    value="{{ old('expense_memo', $expense->expense_memo) }}"
+                >
+            </textarea>
 
             </div>
 
@@ -373,31 +423,47 @@
             <div class="buttons">
 
                 <button
-                    id="rouhiButton"
+                    id="expenseButton"
                     class="btn expense"
-                    type="button"
+                    type="submit"
                 >
                     <i class="bi bi-plus-circle"></i>
 
                     編集
                 </button>
 
+
             </div>
+             <div class="buttons">
 
-       
+                <button
+                    id="deleteButton"
+                    class="btn delete"
+                    type="submit"
+                    onclick="return confirm('本当に削除しますか？');"
 
+                >
+                    <i class="bi bi-trash"></i>
+
+                    削除
+                </button>
+
+            </div>
     </div>
+    </form>
+    @endisset
 
 
     <!-- =========================
          ボーナス入力画面
     ========================== -->
+    @isset($bonus)
+    <form method="POST" action="{{ route('bonuses.update', ['bonus' => $bonus->id]) }}">
+        @csrf
+        @method('PUT')
+ 
 
-    <div
-        id="bonusForm"
-        class="tab-content"
-        style="display: none;"
-    >
+    
             <h1 class="title">
 
                 <i class="bi bi-gift"></i>
@@ -413,7 +479,7 @@
 
                 <label
                     class="label"
-                    for="bounusDate"
+                    for="bonusDate"
                 >
                     <i class="bi bi-calendar-event"></i>
 
@@ -421,10 +487,11 @@
                 </label>
 
                 <input
-                    id="bounusDate"
+                    id="bonusDate"
                     class="input"
                     type="date"
-                    value="{{ old('bounus_date') }}"
+                    name="bonus_date"
+                    value="{{ old('bonus_date', $bonus->bonus_date) }}"
                 >
 
             </div>
@@ -436,7 +503,7 @@
 
                 <label
                     class="label"
-                    for="bounusTotal"
+                    for="bonusTotal"
                 >
                     <i class="bi bi-cash-stack"></i>
 
@@ -444,13 +511,14 @@
                 </label>
 
                 <input
-                    id="bounusTotal"
+                    id="bonusTotal"
                     class="input"
                     type="number"
                     placeholder="例：5000"
                     min="0"
                     onwheel="this.blur();"
-                    value="{{ old('bounusTotal') }}"
+                    name="bonus_amount"
+                    value="{{ old('bonus_amount', $bonus->bonus_amount) }}"
                 >
 
             </div>
@@ -462,7 +530,7 @@
 
                 <label
                     class="label"
-                    for="bounusMemo"
+                    for="bonusMemo"
                 >
                     <i class="bi bi-pencil-square"></i>
 
@@ -470,11 +538,12 @@
                 </label>
 
                 <textarea
-                    id="bounusMemo"
+                    id="bonusMemo"
                     class="input textarea"
                     rows="4"
                     placeholder="ボーナスの内容を入力"
-                    value="{{ old('bounusMemo') }}"
+                    name="bonus_memo"
+                    value="{{ old('bonus_memo', $bonus->bonus_memo) }}"
                 ></textarea>
 
             </div>
@@ -485,23 +554,37 @@
             <div class="buttons">
 
                 <button
-                    id="bounusButton"
+                    id="bonusButton"
                     class="btn bonus"
-                    type="button"
+                    type="submit"
                 >
                     <i class="bi bi-plus-circle"></i>
 
                     編集
                 </button>
             </div>
+            <button
+                    id="deleteButton"
+                    class="btn delete"
+                    type="submit"
+                    onclick="return confirm('本当に削除しますか？');"
+
+                >
+                    <i class="bi bi-trash"></i>
+
+                    削除
+                </button>
             
             
 
         </div>
 
     </div>
+   
 
 </div>
+ </form>
+    @endisset
 
 </body>
 </html>
