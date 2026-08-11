@@ -1,11 +1,16 @@
 @isset($shift)
-@php
-[$startHour, $startMinute] = explode(':', $shift->start_time);
-[$endHour, $endMinute] = explode(':', $shift->end_time);
+    @php
+        $startParts = explode(':', (string) $shift->start_time);
+        $startHour = (int) $startParts[0];
+        $startMinute = (int) ($startParts[1] ?? 0);
 
-   $breakHour = intdiv((int) $shift->break_duration, 60);
-    $breakMinute = (int) $shift->break_duration % 60;
-@endphp
+        $endParts = explode(':', (string) $shift->end_time);
+        $endHour = (int) $endParts[0];
+        $endMinute = (int) ($endParts[1] ?? 0);
+
+        $breakHour = intdiv((int) $shift->break_duration, 60);
+        $breakMinute = (int) $shift->break_duration % 60;
+    @endphp
 @endisset
 <!DOCTYPE html>
 <html lang="ja">
@@ -72,14 +77,22 @@
 
 
     <!-- =========================
-  　　　シフト入力画面
+　　　シフト入力画面
     ========================== -->
+        @if ($errors->any())
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+@endif
+    
     @isset($shift)
     <form method="POST" action="{{ route('shifts.update', ['shift' => $shift->id]) }}">
         @csrf
         @method('PUT')
 
-   
+
 
             <h1 class="title">
                 <i class="bi bi-calendar-check"></i>
@@ -103,7 +116,9 @@
                     id="work_date"
                     class="input"
                     type="date"
-                    value="{{ old('work_date', $shift->work_date) }}"
+                    name="work_date"
+                    required
+                    value="{{ old('work_date', $shift->shift_date) }}"
                 >
 
             </div>
@@ -227,6 +242,7 @@
                     placeholder="例：1160"
                     min="0"
                     onwheel="this.blur();"
+                    name="wage"
                     value="{{ old('wage', $shift->wage) }}"
                 >
 
@@ -293,10 +309,14 @@
 
                     編集
                 </button>
+</form>
 
             </div>
+            <form action="{{ route('shifts.destroy', ['shift' => $shift->id]) }}" method="POST">
+                @csrf
+                @method('DELETE')
             
-            <div class="buttons">
+            
 
                 <button
                     id="deleteButton"
@@ -309,11 +329,11 @@
 
                     削除
                 </button>
+            </form>
 
-            </div>
-
+            
         </div>
-        </form>
+      
     @endisset
        
        
@@ -330,9 +350,6 @@
         @method('PUT')
 
     
-
-       
-
             <h1 class="title">
 
                 <i class="bi bi-cart-x"></i>
@@ -359,7 +376,9 @@
                     id="expenseDate"
                     class="input"
                     type="date"
-                    value="{{ old('expense_date', $expense->expense_date) }}"       
+                    name="expense_date"
+                    value="{{ old('expense_date', $expense->expense_date) }}" 
+                    required      
                 >
 
             </div>
@@ -387,6 +406,7 @@
                     min="0"
                     onwheel="this.blur();"
                     value="{{ old('expense_amount', $expense->expense_amount) }}"
+                    required
                 >
 
             </div>
@@ -411,8 +431,9 @@
                     rows="4"
                     placeholder="何に使ったか入力"
                     name="expense_memo"
-                    value="{{ old('expense_memo', $expense->expense_memo) }}"
+                    
                 >
+                {{ old('expense_memo', $expense->expense_memo) }}
             </textarea>
 
             </div>
@@ -431,10 +452,14 @@
 
                     編集
                 </button>
+    </form>
 
 
             </div>
-             <div class="buttons">
+            <form action="{{ route('expenses.destroy', ['expense' => $expense->id]) }}" method="POST">
+                @csrf
+                @method('DELETE')
+           
 
                 <button
                     id="deleteButton"
@@ -447,8 +472,9 @@
 
                     削除
                 </button>
+            </form>
 
-            </div>
+            
     </div>
     </form>
     @endisset
@@ -457,13 +483,20 @@
     <!-- =========================
          ボーナス入力画面
     ========================== -->
-    @isset($bonus)
+
+    @if ($errors->any())
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+@endif
+    
+@isset($bonus)
     <form method="POST" action="{{ route('bonuses.update', ['bonus' => $bonus->id]) }}">
         @csrf
         @method('PUT')
- 
 
-    
             <h1 class="title">
 
                 <i class="bi bi-gift"></i>
@@ -492,6 +525,7 @@
                     type="date"
                     name="bonus_date"
                     value="{{ old('bonus_date', $bonus->bonus_date) }}"
+                    required
                 >
 
             </div>
@@ -519,6 +553,7 @@
                     onwheel="this.blur();"
                     name="bonus_amount"
                     value="{{ old('bonus_amount', $bonus->bonus_amount) }}"
+                    required
                 >
 
             </div>
@@ -543,8 +578,8 @@
                     rows="4"
                     placeholder="ボーナスの内容を入力"
                     name="bonus_memo"
-                    value="{{ old('bonus_memo', $bonus->bonus_memo) }}"
-                ></textarea>
+                    
+                >{{ old('bonus_memo', $bonus->bonus_memo) }}</textarea>
 
             </div>
 
@@ -563,6 +598,10 @@
                     編集
                 </button>
             </div>
+    </form>
+    <form action="{{ route('bonuses.destroy', ['bonus' => $bonus->id]) }}" method="POST">
+        @csrf
+        @method('DELETE')
             <button
                     id="deleteButton"
                     class="btn delete"
@@ -574,6 +613,7 @@
 
                     削除
                 </button>
+                </form>
             
             
 
@@ -583,7 +623,8 @@
    
 
 </div>
- </form>
+
+
     @endisset
 
 </body>

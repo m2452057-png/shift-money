@@ -42,4 +42,38 @@ public function edit(Bonus $bonus)
     ]);
 
 }
+public function update(Request $request, Bonus $bonus)
+{
+    abort_unless($bonus->user_id === Auth::id(), 403);
+
+    // フォームの入力内容をバリデーションする
+    $validated = $request->validate([
+        'bonus_date' => 'required|date',
+        'bonus_amount' => 'required|integer|min:0',
+        'bonus_memo' => 'nullable|string|max:255',
+    ]);
+
+    // DB更新
+    $bonus->update([
+        'bonus_date' => $validated['bonus_date'],
+        'bonus_amount' => $validated['bonus_amount'],
+        'bonus_memo' => $validated['bonus_memo'] ?? null,
+    ]);
+
+    return redirect()
+        ->route('dashboard')
+        ->with('success', 'ボーナス情報が更新されました。');
+
+}
+public function destroy(Bonus $bonus)
+{
+    abort_unless($bonus->user_id === Auth::id(), 403);
+
+    // DB削除
+    $bonus->delete();
+
+    return redirect()
+        ->route('dashboard')
+        ->with('success', 'ボーナス情報が削除されました。');
+}
 }
