@@ -268,10 +268,67 @@ public function edit(Shift $shift): View
         'shift' => $shift,
         'activeTab' => 'shift',
    ]);
-
-
         
     }
+
+  public function update(Request $request, Shift $shift)
+  {
+    abort_unless($shift->user_id === Auth::id(), 403);
+
+    // フォームの入力内容をバリデーションする
+    $validated = $request->validate([
+        'work_date' => 'required|date',
+        'start_time' => 'required|integer|min:0|max:23',
+        'start_minute' => 'required|numeric|min:0|max:59',
+        'end_time' => 'required|integer|min:0|max:23',
+        'end_minute' => 'required|numeric|min:0|max:59',
+        'wage' => 'required|integer|min:0',
+        'break_duration' => 'nullable|integer|min:0',
+    ]);
+    $breakTime = (int)($validated['break_duration'] ?? 0);
+    $breakMinute = (int)($validated['break_minute'] ?? 0);
+
+    $salary = $this->shiftDaily(
+      (int)$validated['wage'],
+      (int)$validated['start_time'],
+      (int)$validated['start_minute'],
+      (int)$validated['end_time'],
+      (int)$validated['end_minute'],
+      $breakTime,
+      $breakMinute
+
+      );
+      $shift->update([
+        'shift_date' => $validated['work_date'],
+        'start_time' => sprintf(
+            '%02d:%02d',
+            $validated['start_time'],
+            $validated['start_minute']
+        ),
+        'end_time' => sprintf(
+            '%02d:%02d',
+            $validated['end_time'],
+            $validated['end_minute']
+        ),
+        'wage' => (int)$validated['wage'],
+        'break_duration' => $breakTime * 60 + $breakMinute,
+        'salary' => $salary,
+    ]);
+
+    return redirect()
+        ->route('dashboard')
+        ->with('success', 'シフト情報が更新されました。');
+  }
+  public function destroy(Shift $shift)
+  {
+      abort_unless($shift->user_id === Auth::id(), 403);
+      $shift->delete();
+      return redirect()
+          ->route('dashboard')
+          ->with('success', 'シフト情報が削除されました。');
+    }
+
+
 
 }
 

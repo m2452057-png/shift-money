@@ -45,4 +45,34 @@ class RouhiController extends Controller
             'activeTab' => 'expense',
         ]);
     }
+    public function update(Request $request, Expense $expense)
+    {
+        abort_unless($expense->user_id === Auth::id(), 403);
+
+        // フォームの入力内容をバリデーションする
+        $validated = $request->validate([
+            'expense_date' => 'required|date',
+            'expense_amount' => 'required|integer|min:0',
+            'expense_memo' => 'nullable|string|max:255',
+        ]);
+
+        // DB更新
+        $expense->update([
+            'expense_date' => $validated['expense_date'],
+            'expense_amount' => $validated['expense_amount'],
+            'expense_memo' => $validated['expense_memo'] ?? null,
+        ]);
+
+        return redirect()
+            ->route('dashboard')
+            ->with('success', '経費情報が更新されました。');
+    }
+    public function destroy(Expense $expense)
+      {
+          abort_unless($expense->user_id === Auth::id(), 403);
+          $expense->delete();
+          return redirect()
+              ->route('dashboard')
+              ->with('success', '経費情報が削除されました。');
+        } 
 }
