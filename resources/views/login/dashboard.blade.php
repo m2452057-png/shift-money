@@ -110,22 +110,22 @@
 
                 <div class="card">
                 <p>今月のシフト収入</p>
-                <h2>0円</h2>
+                <h2>{{ number_format($shiftTotal) }}円</h2>
                 </div>
 
                 <div class="card">
                 <p>今月のボーナス</p>
-                <h2>0円</h2>
+                <h2>{{ number_format($bonusTotal) }}円</h2>
                 </div>
 
                 <div class="card">
                 <p>今月の浪費</p>
-                <h2>0円</h2>
+                <h2>{{ number_format($expenseTotal) }}円</h2>
                 </div>
 
                 <div class="card">
                 <p>現在の貯金額</p>
-                <h2>0円</h2>
+                <h2>{{ number_format($savingsTotal) }}円</h2>
                 </div>
 
             </div>
