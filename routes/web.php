@@ -6,6 +6,8 @@ use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\RouhiController;
 use App\Http\Controllers\BonusController;
 
+use App\Http\Controllers\SummaryController;
+
 
 Route::get('/', function () {
 
@@ -54,5 +56,9 @@ Route::middleware('auth')
 
     Route::get('/dashboard', [ShiftController::class, 'dashboard'])
     ->name('dashboard');
+
+
+
+
 
 });

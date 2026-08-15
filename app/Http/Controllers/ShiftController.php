@@ -8,6 +8,8 @@ use Illuminate\View\View;
 use Carbon\Carbon;
 use App\Models\Bonus;
 use App\Models\Expense;
+use App\Models\MonthlySummary;
+
 
 
 // PHPの処理
@@ -257,7 +259,12 @@ public function dashboard(): View
         ];
     }
 
-    return view('login.dashboard', compact('events'));
+
+    return view('login.dashboard', 
+    compact(
+    'events',
+    'summary',
+    ));
 }
 
 public function edit(Shift $shift): View
