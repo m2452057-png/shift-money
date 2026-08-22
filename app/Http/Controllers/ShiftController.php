@@ -165,9 +165,14 @@ if($startHours>=22 &&$endHours<=29){
 return (int) floor($total);
 
 }
-
-public function dashboard(): View
-{
+// =================================
+public function dashboard(Request $request): View
+{  // URLのyearを取得する
+    // yearがなければ現在の年を使用する
+  $year = $request->input('year', now()->year);
+    // URLのmonthを取得する
+    // monthがなければ現在の月を使用する
+  $month = $request->input('month', now()->month);
     // ログインユーザーのシフトを取得
     $shifts = Shift::where('user_id', Auth::id())
     ->get();
@@ -259,26 +264,38 @@ public function dashboard(): View
         ];
     }
 
+    // 選択された年月の合計を計算・保存する
+    $summary = MonthlySummary::calculate
+    (Auth::id(), $year, $month);
 
+// Bladeへデータを渡す
     return view('login.dashboard', 
     compact(
     'events',
+    'year',
+    'month',
     'summary',
     ));
 }
 
+
+
+
+// ==================================
 public function edit(Shift $shift): View
 {
-   abort_unless($shift->user_id === Auth::id(), 403);
-   return view('login.shift-edit', [
+  abort_unless($shift->user_id === Auth::id(), 403);
+  return view('login.shift-edit', [
     
         'shift' => $shift,
         'activeTab' => 'shift',
-   ]);
+  ]);
         
     }
 
-  public function update(Request $request, Shift $shift)
+  
+  
+    public function update(Request $request, Shift $shift)
   {
     abort_unless($shift->user_id === Auth::id(), 403);
 

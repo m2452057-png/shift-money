@@ -40,9 +40,9 @@
 
 <div class="container">
 
-    <!-- =========================
-  シフト・浪費・ボーナスタブ
-    ========================== -->
+<!-- =========================
+　　　シフト・浪費・ボーナスタブ
+========================== -->
     <div class="card">
     <div class="tabs main-tabs">
 
@@ -168,7 +168,6 @@
                             name="start_minute"
                             value="{{ old('start_minute', $startMinute) }}"
 
-
                     </div>
 
                 </div>
@@ -273,7 +272,6 @@
                         onwheel="this.blur();"
                         name="break_time"
                         value="{{ old('break_time', $breakHour) }}"
-
                     >
 
                     <span class="time-colon">：</span>
@@ -333,12 +331,12 @@
 
             
         </div>
-      
+    
     @endisset
-       
-       
+    
+    
 
-  
+
 
 
     <!-- =========================
@@ -481,7 +479,7 @@
 
 
     <!-- =========================
-         ボーナス入力画面
+        ボーナス入力画面
     ========================== -->
 
     @if ($errors->any())
@@ -504,10 +502,7 @@
                 ボーナス入力 編集
 
             </h1>
-
-
             <!-- ボーナス日 -->
-
             <div class="box">
 
                 <label
@@ -620,7 +615,7 @@
         </div>
 
     </div>
-   
+
 
 </div>
 

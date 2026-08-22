@@ -37,7 +37,9 @@ public function store(Request $request)
 public function edit(Bonus $bonus)
 {abort_unless($bonus->user_id === Auth::id(), 403);
     return view('login.shift-edit', [
+         // Bladeで $bonus としてボーナス情報を使えるようにする
         'bonus' => $bonus,
+        // Bladeで $activeTab の値を「bonus」にする
         'activeTab' => 'bonus',
     ]);
 

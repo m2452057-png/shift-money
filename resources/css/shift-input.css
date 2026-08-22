@@ -1,5 +1,5 @@
 /* シフト入力ページ */
-* {
+*{
 
   margin: 0;
 
@@ -29,7 +29,6 @@ body {
   border-radius: 25px;
   padding: 30px;
   margin-bottom: 40px;
-
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
@@ -126,7 +125,6 @@ body {
   color: white;
   padding: 16px 42px;
   border-radius: 18px;
-  font-size: 1.1rem;
   font-weight: 700;
   transition: 0.3s;
 }
