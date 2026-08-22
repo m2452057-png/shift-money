@@ -109,23 +109,23 @@
                 <div class="cards">
 
                 <div class="card">
-                <p>今月のシフト収入</p>
-                <h2>{{ number_format($shiftTotal) }}円</h2>
+                <p>{{ $year }}年{{ $month }}月のシフト収入</p>
+                <h2>{{ number_format($summary->shift_total??0) }}円</h2>
                 </div>
 
                 <div class="card">
-                <p>今月のボーナス</p>
-                <h2>{{ number_format($bonusTotal) }}円</h2>
+                <p>{{ $year }}年{{ $month }}月のボーナス</p>
+                <h2>{{ number_format($summary->bonus_total??0) }}円</h2>
                 </div>
 
                 <div class="card">
-                <p>今月の浪費</p>
-                <h2>{{ number_format($expenseTotal) }}円</h2>
+                <p>{{ $year }}年{{ $month }}月の浪費</p>
+                <h2>{{ number_format($summary->expense_total??0) }}円</h2>
                 </div>
 
                 <div class="card">
-                <p>現在の貯金額</p>
-                <h2>{{ number_format($savingsTotal) }}円</h2>
+                <p>{{ $year }}年{{ $month }}月の貯金額</p>
+                <h2>{{ number_format($summary->savings_total??0) }}円</h2>
                 </div>
 
             </div>
@@ -151,6 +151,27 @@
 
         const calendar = new FullCalendar.Calendar(calendarElement, {
             initialView: 'dayGridMonth',
+            // ここから下はネットに頼ってしまった
+            initialDate: "{{sprintf('%04d-%02d-01', $year, $month)}}",
+            datesSet: function (info) {
+    const date = info.view.currentStart;
+    const displayedYear = date.getFullYear();
+    const displayedMonth = date.getMonth() + 1;
+
+    const currentYear = {{ $year }};
+    const currentMonth = {{ $month }};
+
+    if (
+        displayedYear !== currentYear ||
+        displayedMonth !== currentMonth
+    ) {
+        window.location.href =
+            "{{ route('dashboard') }}"
+            + "?year=" + displayedYear
+            + "&month=" + displayedMonth;
+    }
+    //ここはネットに頼ってしまった ここで、表示されている月が変わったときにページをリロードして、正しい月のデータを取得する
+},
             locale: 'ja',
             firstDay: 1,
             height: 'auto',
