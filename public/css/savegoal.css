@@ -1,0 +1,94 @@
+/* すべての要素に適用 */
+* {
+  box-sizing: border-box;
+}
+
+
+body {
+  margin: 0;
+  padding: 30px 20px;
+  background-color: #f5f7fb;
+  color: #333;
+  font-family: "Yu Gothic", sans-serif;
+}
+
+.container {
+  width: 100%;
+  max-width: 700px;
+
+  /* 左右中央に配置 */
+  margin: 0 auto;
+}
+
+/* カード */
+.card {
+  padding: 30px;
+  /* カード同士の間隔 */
+  margin-bottom: 30px;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px #cccccc;
+}
+
+/* タイトル */
+.title {
+  /* 上・左右・下の余白 */
+  margin: 0 0 30px;
+
+  color: #1e293b;
+  font-size: 36px;
+  text-align: center;
+}
+
+/* ラベルと入力欄をまとめる場所 */
+.box {
+  margin-bottom: 20px;
+}
+
+/* ラベル */
+.label {
+  display: block;
+
+
+  margin-bottom: 8px;
+
+  color: #334155;
+  font-weight: bold;
+}
+
+
+.input {
+  width: 100%;
+
+  /* 入力欄の内側の余白 */
+  padding: 15px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+/* ボタンを中央に配置 */
+.buttons {
+  margin-top: 20px;
+  text-align: center;
+}
+
+
+.btn {
+
+  padding: 15px 40px;
+
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* マウスをボタンに乗せたとき */
+.btn:hover {
+  background-color: #1d4ed8;
+}

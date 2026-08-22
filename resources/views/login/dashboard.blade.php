@@ -57,16 +57,11 @@
         </a>
 
         <a href="#">
-        <i class="bi bi-cash-coin"></i>
-        収支入力
-        </a>
-
-        <a href="#">
         <i class="bi bi-bar-chart"></i>
         月別収支
         </a>
 
-        <a href="#">
+        <a href="{{ route('savegoal.index') }}">
         <i class="bi bi-piggy-bank"></i>
         貯金目標
         </a>

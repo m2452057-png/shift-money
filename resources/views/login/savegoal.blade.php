@@ -16,13 +16,17 @@
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+       
     >
-    @vite(['resources/css/savegoal.css', 
-    'resources/js/app.js'])
+    <link
+        rel="stylesheet"
+        href="{{ asset('css/savegoal.css') }}?v=2"
+    >
+    @vite(['resources/js/app.js'])
 </head>
 <body> 
     <div class="container">
-        <form method="POST" action="{{ route('savemoney.store') }}">
+        <form method="POST" action="{{ route('savegoal.store') }}">
 
         @csrf
             {{-- 入力エラーがある場合にメッセージを表示する --}}
@@ -49,7 +53,8 @@
       name="money_savings"
       class="input" 
       min="0"
-      value="{{ old('money_savings') }}"
+      value="{{ old('money_savings',
+      $savings?->money_savings ?? '') }}"
       placeholder="例: 100000">
     </div>
     <div class="buttons">
@@ -60,8 +65,9 @@
   </div>
 </form>
   
-  <form method="POST" action="{{ route('savegoals.store') }}">
+  <form method="POST" action="{{ route('savegoal.update') }}">
         @csrf
+        
             {{-- 入力エラーがある場合にメッセージを表示する --}}
     @if ($errors->any())
         <div class="error-messages">
@@ -86,7 +92,8 @@
         type="number" 
         id="money_goal" 
         name="money_goal"
-        value="{{ old('money_goal') }}"
+        value="{{ old('money_goal',
+        $goals?->money_goal ?? '') }}"
         class="input"
       placeholder="例: 150000"
       >

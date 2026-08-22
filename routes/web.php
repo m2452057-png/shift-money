@@ -57,6 +57,15 @@ Route::middleware('auth')
     Route::get('/dashboard', [ShiftController::class, 'dashboard'])
     ->name('dashboard');
 
+    Route::get('/savegoal', function() {
+        return view('login.savegoal',
+        [
+            'savings' => null,
+            'goals' => null,
+        ]);
+    })
+    ->name('savegoal.index');
+
 
 
 

@@ -11,6 +11,7 @@ export default defineConfig({
     'resources/css/login.css',
     'resources/css/dashboard.css',
     'resources/css/shift-input.css',
+    'resources/css/savegoal.css',
     'resources/js/app.js',
     'resources/js/shift-input.js',
 
