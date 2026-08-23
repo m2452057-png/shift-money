@@ -283,7 +283,7 @@ Auth::id())
 $savingTotal = MonthlySummary::where(
   'user_id',Auth::id()
   )->where('year', $year)
-  ->where('month','<=',$month)コード文字お小足
+  ->where('month','<=',$month)
   ->sum('savings_total');
   // 合計貯金額を計算する
 $totalSavings = $moneySavings + $savingTotal;
