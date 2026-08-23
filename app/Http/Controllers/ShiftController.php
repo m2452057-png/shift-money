@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Models\Bonus;
 use App\Models\Expense;
 use App\Models\MonthlySummary;
+use App\Models\SavingGoal;
 
 
 
@@ -165,6 +166,7 @@ if($startHours>=22 &&$endHours<=29){
 return (int) floor($total);
 
 }
+
 // =================================
 public function dashboard(Request $request): View
 {  // URLのyearを取得する
@@ -262,7 +264,43 @@ public function dashboard(Request $request): View
             'borderColor' => 'green',
             'url' => route('bonuses.edit', ['bonus' => $bonus->id]),
         ];
+        
+
     }
+  $summary = MonthlySummary::calculate(
+    Auth::id(),
+    $year,
+    $month
+);
+
+
+// 貯金金額の１５０万円を取得する
+$moneySavings = SavingGoal::where(
+  'user_id', 
+Auth::id())
+->value('money_savings');
+// 月額の金額を取得する
+$savingTotal = MonthlySummary::where(
+  'user_id',Auth::id()
+  )->where('year', $year)
+  ->where('month','<=',$month)
+  ->sum('savings_total');
+  // 合計貯金額を計算する
+$totalSavings = $moneySavings + $savingTotal;
+// 貯金目標の金額を取得する
+$moneyGoal = SavingGoal::where(
+  'user_id', Auth::id())
+  ->value('money_goal');
+// 残りの貯金目標金額=貯金目標の金額-合計貯金額
+  $totalgoal = $moneyGoal-$totalSavings;
+
+  
+
+
+
+
+  
+
 
     // 選択された年月の合計を計算・保存する
     $summary = MonthlySummary::calculate
@@ -275,6 +313,8 @@ public function dashboard(Request $request): View
     'year',
     'month',
     'summary',
+    'totalSavings',
+    'totalgoal'
     ));
 }
 
