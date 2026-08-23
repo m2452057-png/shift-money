@@ -274,24 +274,26 @@ public function dashboard(Request $request): View
 );
 
 
-$savingGoal = SavingGoal::where(
-    'user_id',
-    Auth::id()
-)->first();
-// 貯金金額の１５０万円を取得する
+// 貯金金額の１５０万円を取得する(saving_goal->money_savings)
 $moneySavings = SavingGoal::where(
   'user_id', 
-Auth::id())->value('money_savings');
+Auth::id())
+->value('money_savings');
 // 月額の金額を取得する
 $savingTotal = MonthlySummary::where(
-  'user_id', Auth::id())->value('saving_total');
+  'user_id',Auth::id()
+  )->where('year', $year)
+  ->where('month','<=',$month)コード文字お小足
+  ->sum('savings_total');
   // 合計貯金額を計算する
 $totalSavings = $moneySavings + $savingTotal;
 // 貯金目標の金額を取得する
 $moneyGoal = SavingGoal::where(
-  'user_id', Auth::id())->value('money_goal');
+  'user_id', Auth::id())
+  ->value('money_goal');
 // 残りの貯金目標金額=貯金目標の金額-合計貯金額
   $totalgoal = $moneyGoal-$totalSavings;
+
 
 
   
