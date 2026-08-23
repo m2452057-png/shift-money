@@ -273,6 +273,7 @@ public function dashboard(Request $request): View
     $month
 );
 
+
 $savingGoal = SavingGoal::where(
     'user_id',
     Auth::id()
@@ -291,11 +292,6 @@ $moneyGoal = SavingGoal::where(
   'user_id', Auth::id())->value('money_goal');
 // 残りの貯金目標金額=貯金目標の金額-合計貯金額
   $totalgoal = $moneyGoal-$totalSavings;
-
-
-  
-
-
 
 
   
