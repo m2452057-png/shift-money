@@ -103,8 +103,8 @@
                     id="work-date"
                     class="input"
                     type="date"
-                    value="{{ request()->query('date') }}"
-                    name="work-date"
+                    value="{{ old('work_date', request()->query('date')) }}"
+                    name="work_date"
                 >
 
             </div>
@@ -130,13 +130,13 @@
 
                         <input
                             id="start-time"
-                            value="{{ old('start-time') }}"
+                            value="{{ old('start_time') }}"
                             class="input"
                             type="number"
                             placeholder="時"
                             min="0"
                             max="23"
-                            name="start-time"
+                            name="start_time"
                             onwheel="this.blur();"
                         >
 
@@ -144,13 +144,13 @@
 
                         <input
                             id="start-minute"
-                            value="{{ old('start-minute') }}"
+                            value="{{ old('start_minute') }}"
                             class="input"
                             type="number"
                             placeholder="分"
                             min="0"
                             max="59"
-                            name="start-minute"
+                            name="start_minute"
                             onwheel="this.blur();"
                         >
 
@@ -176,30 +176,30 @@
 
                         <input
                             id="end-time"
-                            value="{{ old('end-time') }}"
+                            value="{{ old('end_time') }}"
                             class="input"
                             type="number"
                             placeholder="時"
                             min="0"
                             max="23"
-                            name="end-time"
+                            name="end_time"
                             onwheel="this.blur();"
-                            name="end-time"
+                        
                         >
 
                         <span class="time-colon">：</span>
 
                         <input
                             id="end-minute"
-                            value="{{ old('end-minute') }}"
+                            value="{{ old('end_minute') }}"
                             class="input"
                             type="number"
                             placeholder="分"
                             min="0"
                             max="59"
-                            name="end-minute"
+                            name="end_minute"
                             onwheel="this.blur();"
-                            name="end-minute"
+                            
                         >
 
                     </div>
@@ -253,27 +253,27 @@
 
                     <input
                         id="break-time"
-                        value="{{ old('break-time') }}"
+                        value="{{ old('break_time') }}"
                         class="input"
                         type="number"
                         placeholder="時間"
                         min="0"
                         onwheel="this.blur();"
-                        name="break-time"
+                        name="break_time"
                     >
 
                     <span class="time-colon">：</span>
 
                     <input
                         id="break-minute"
-                        value="{{ old('break-minute') }}"
+                        value="{{ old('break_minute') }}"
                         class="input"
                         type="number"
                         placeholder="分"
                         min="0"
                         max="59"
                         onwheel="this.blur();"
-                        name="break-minute"
+                        name="break_minute"
                         >
 
                 </div>
@@ -384,7 +384,7 @@
                     name="expense-memo"
                     rows="4"
                     placeholder="何に使ったか入力"
-                ></textarea>
+                >{{ old('expense-memo', request()->query('memo')) }}</textarea>
 
             </div>
 
@@ -478,7 +478,6 @@
                     placeholder="例：5000"
                     min="0"
                     onwheel="this.blur();"
-                    value="{{ old('bonus-amount') }}"
                     name="bonus-amount"
                 >
 
@@ -505,7 +504,7 @@
                     rows="4"
                     placeholder="ボーナスの内容を入力"
                     name="bonus-memo"
-                ></textarea>
+                >{{ old('bonus-memo', request()->query('memo')) }}</textarea>
 
             </div>
 

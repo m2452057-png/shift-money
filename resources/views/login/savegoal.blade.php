@@ -54,7 +54,7 @@
       class="input" 
       min="0"
       value="{{ old('money_savings',
-      $savings?->money_savings ?? '') }}"
+      $savingGoals?->money_savings ?? '') }}"
       placeholder="例: 100000">
     </div>
     <div class="buttons">
@@ -65,7 +65,7 @@
   </div>
 </form>
   
-  <form method="POST" action="{{ route('savegoal.update') }}">
+  <form method="POST" action="{{ route('savegoal.store') }}">
         @csrf
         
             {{-- 入力エラーがある場合にメッセージを表示する --}}
@@ -93,7 +93,7 @@
         id="money_goal" 
         name="money_goal"
         value="{{ old('money_goal',
-        $goals?->money_goal ?? '') }}"
+        $savingGoals?->money_goal ?? '') }}"
         class="input"
       placeholder="例: 150000"
       >

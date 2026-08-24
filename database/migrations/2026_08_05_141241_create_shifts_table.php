@@ -18,10 +18,13 @@ return new class extends Migration
             ->onDelete('cascade');
             
             $table->date('shift_date');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->unsignedInteger('start_time');
+            $table->unsignedInteger('start_minute');
+            $table->unsignedInteger('end_time');
+            $table->unsignedInteger('end_minute');
             $table->unsignedInteger('wage'); // 時給（円）
-            $table->unsignedInteger('break_duration')->default(0); // break_timeを指定しない → 0を保存
+            $table->unsignedInteger('break_time')->default(0); // break_timeを指定しない → 0を保存
+            $table->unsignedInteger('break_minute')->default(0); // break_minuteを指定しない → 0を保存
             $table->unsignedInteger('salary');// 給与（円）
             $table->timestamps();
         });

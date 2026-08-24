@@ -17,9 +17,12 @@ class Shift extends Model
         'user_id',
         'shift_date',
         'start_time',
+        'start_minute',
         'end_time',
+        'end_minute',
         'wage',
-        'break_duration',
+        'break_time',
+        'break_minute',
         'salary',
     ];
     

@@ -8,6 +8,9 @@ use App\Http\Controllers\BonusController;
 
 use App\Http\Controllers\SummaryController;
 
+use App\Http\Controllers\SavingGoalController;
+use App\Http\Controllers\DashboardController;
+
 
 Route::get('/', function () {
 
@@ -24,9 +27,8 @@ Route::post('/login', [LoginController::class, 'login'])
 Route::middleware('auth')
 ->group(function () {
     // ダッシュボード画面
-    Route::get('/dashboard', function () {
-        return view('login.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])
+    ->name('dashboard');
     // ログアウト処理
     Route::post('/logout', [LoginController::class, 'logout'])
     ->name('logout');
@@ -54,17 +56,14 @@ Route::middleware('auth')
     Route::resource('bonuses', BonusController::class)
     ->only(['index', 'edit', 'update', 'destroy']);
 
-    Route::get('/dashboard', [ShiftController::class, 'dashboard'])
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])
     ->name('dashboard');
 
-    Route::get('/savegoal', function() {
-        return view('login.savegoal',
-        [
-            'savings' => null,
-            'goals' => null,
-        ]);
-    })
+    // 貯金目標のルート
+    Route::get('/savegoal', [SavingGoalController::class, 'index'])
     ->name('savegoal.index');
+    Route::post('/savegoal', [SavingGoalController::class, 'store'])
+    ->name('savegoal.store');
 
 
 
