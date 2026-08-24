@@ -56,3 +56,6 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+##貯金目標の保存処理をupdateOrCreateに修正
+既存データを更新し、データがなければ新規作成する処理のイメージがつかめなかったため、AIに質問した。しかし、回答をそのまま使用するだけでは十分に納得できなかったので、updateOrCreate() の動作を調べ、自分でコードを書き直した。
