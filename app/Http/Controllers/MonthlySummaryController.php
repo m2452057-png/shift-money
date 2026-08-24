@@ -31,7 +31,7 @@ class MonthlySummaryController extends Controller
             ->whereMonth('expense_date', $month)
             ->sum('expense_amount');
         $savingsTotal = $shiftTotal + $bonusTotal - $expenseTotal; 
-          
+        
 
         
         // 今回は合計を計算した後に保存

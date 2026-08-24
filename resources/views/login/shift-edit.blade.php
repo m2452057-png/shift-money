@@ -1,17 +1,4 @@
-@isset($shift)
-    @php
-        $startParts = explode(':', (string) $shift->start_time);
-        $startHour = (int) $startParts[0];
-        $startMinute = (int) ($startParts[1] ?? 0);
 
-        $endParts = explode(':', (string) $shift->end_time);
-        $endHour = (int) $endParts[0];
-        $endMinute = (int) ($endParts[1] ?? 0);
-
-        $breakHour = intdiv((int) $shift->break_duration, 60);
-        $breakMinute = (int) $shift->break_duration % 60;
-    @endphp
-@endisset
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -151,7 +138,7 @@
                             max="23"
                             onwheel="this.blur();"
                             name="start_time"
-                            value="{{ old('start_time', $startHour) }}"
+                            value="{{ old('start_time', $shift->start_time) }}"
 
                         >
 
@@ -166,7 +153,7 @@
                             max="59"
                             onwheel="this.blur();"
                             name="start_minute"
-                            value="{{ old('start_minute', $startMinute) }}"
+                            value="{{ old('start_minute', $shift->start_minute) }}"
 
                     </div>
 
@@ -197,7 +184,7 @@
                             max="23"
                             onwheel="this.blur();"
                             name="end_time"
-                            value="{{ old('end_time', $endHour) }}"
+                            value="{{ old('end_time', $shift->end_time) }}"
                         >
 
                         <span class="time-colon">：</span>
@@ -211,7 +198,7 @@
                             max="59"
                             onwheel="this.blur();"
                             name="end_minute"
-                            value="{{ old('end_minute', $endMinute) }}"     
+                            value="{{ old('end_minute', $shift->end_minute) }}"     
 
                     </div>
 
@@ -271,7 +258,7 @@
                         min="0"
                         onwheel="this.blur();"
                         name="break_time"
-                        value="{{ old('break_time', $breakHour) }}"
+                        value="{{ old('break_time', $shift->break_time) }}"
                     >
 
                     <span class="time-colon">：</span>
@@ -285,7 +272,7 @@
                         max="59"
                         onwheel="this.blur();"
                         name="break_minute"
-                        value="{{ old('break_minute', $breakMinute) }}"
+                        value="{{ old('break_minute', $shift->break_minute) }}"
 
                     >
 

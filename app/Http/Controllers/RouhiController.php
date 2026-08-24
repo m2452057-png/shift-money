@@ -68,11 +68,11 @@ class RouhiController extends Controller
             ->with('success', '経費情報が更新されました。');
     }
     public function destroy(Expense $expense)
-      {
-          abort_unless($expense->user_id === Auth::id(), 403);
-          $expense->delete();
-          return redirect()
-              ->route('dashboard')
-              ->with('success', '経費情報が削除されました。');
+    {
+        abort_unless($expense->user_id === Auth::id(), 403);
+        $expense->delete();
+        return redirect()
+            ->route('dashboard')
+            ->with('success', '経費情報が削除されました。');
         } 
 }
