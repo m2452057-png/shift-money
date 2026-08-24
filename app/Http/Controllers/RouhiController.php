@@ -35,7 +35,7 @@ class RouhiController extends Controller
 
         return redirect()
             ->route('dashboard')
-            ->with('success', '経費情報が保存されました。');
+            ->with('success', '保存されました。');
     }
     public function edit(Expense $expense)
     {
