@@ -27,19 +27,15 @@ class SavingGoalController extends Controller
         ]);
 
         // DB保存
-        $updated=[];
-        if ($request->filled('money_savings')) {
-            $updated['money_savings'] = $validated['money_savings'];
-        }
-        if ($request->filled('money_goal')) {
-            $updated['money_goal'] = $validated['money_goal'];
-        }
-        if($updated!==[]){
-            SavingGoal::updateOrCreate(
-                ['user_id' => Auth::id()],
-                $updated
-            );
-        }
+        
+        SavingGoal::updateOrCreate(
+            ['user_id' => Auth::id()],
+            [
+                'money_savings' => $validated['money_savings'] ?? null,
+                'money_goal' => $validated['money_goal'] ?? null,
+            ]
+        );
+
 
 
         return redirect()
