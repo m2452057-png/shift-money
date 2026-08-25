@@ -11,16 +11,18 @@ use App\Models\Expense;
 use App\Models\MonthlySummary;
 use App\Models\SavingGoal;
 
+
 class DashboardController extends Controller
 {
 
 public function dashboard(Request $request): View
 {  // URLのyearを取得する
     // yearがなければ現在の年を使用する
-  $year = $request->input('year', now()->year);
+    $userId = Auth::id();
+    $year = $request->query('year', now()->year);
     // URLのmonthを取得する
     // monthがなければ現在の月を使用する
-  $month = $request->input('month', now()->month);
+  $month = $request->query('month', now()->month);
     // ログインユーザーのシフトを取得
     $shifts = Shift::where('user_id', Auth::id())
     ->get();
@@ -117,9 +119,7 @@ public function dashboard(Request $request): View
 
     }
     
-    $userId = Auth::id();
-    $year = now()->year;
-    $month = now()->month;
+    
         $shiftTotal = Shift::where('user_id', $userId)
             ->whereYear('shift_date', $year)
             ->whereMonth('shift_date', $month)
@@ -149,7 +149,7 @@ public function dashboard(Request $request): View
             'savings_total' => $savingsTotal,
         ]
     );
-     
+    
 
 
 
@@ -173,6 +173,25 @@ $moneyGoal = SavingGoal::where(
 // 残りの貯金目標金額=貯金目標の金額-合計貯金額
 $totalgoal = $moneyGoal-$totalSavings;
 
+$saveAverage=MonthlySummary::where('user_id', Auth::id())
+->get();
+foreach ($saveAverage as $average) {
+    $total=0;
+    $count=0;
+    $savings_total = $average->savings_total;
+    
+    if ($savings_total != 0) {
+    $total+=$average->savings_total;
+    $count++;
+
+    }
+    if( $count>0){
+        $saveAverage=$total/$count;
+    }
+}
+$averageTotal =$totalgoal /$saveAverage;
+
+
 
 
 // Bladeへデータを渡す
@@ -190,7 +209,10 @@ $totalgoal = $moneyGoal-$totalSavings;
     'summary',
     'totalSavings',
     'totalgoal',
-    'moneyGoal'
+    'moneyGoal',
+    'saveAverage',
+    'averageTotal',
+
     ));
 }
 
