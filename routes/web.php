@@ -6,7 +6,8 @@ use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\RouhiController;
 use App\Http\Controllers\BonusController;
 
-use App\Http\Controllers\SummaryController;
+
+
 
 use App\Http\Controllers\SavingGoalController;
 use App\Http\Controllers\DashboardController;
@@ -38,8 +39,6 @@ Route::middleware('auth')
     })->name('shift-input');
 
 
-
-
     // それぞれシフトボーナス浪費計算処理
     Route::post('/shift-input', [ShiftController::class, 'store'])
     ->name('shift.store');
@@ -56,8 +55,8 @@ Route::middleware('auth')
     Route::resource('bonuses', BonusController::class)
     ->only(['index', 'edit', 'update', 'destroy']);
 
-    Route::get('/dashboard', [DashboardController::class, 'dashboard'])
-    ->name('dashboard');
+
+    
 
     // 貯金目標のルート
     Route::get('/savegoal', [SavingGoalController::class, 'index'])

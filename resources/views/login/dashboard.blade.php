@@ -105,19 +105,19 @@
 
                 <div class="card">
                 <p>{{ $year }}年{{ $month }}月のシフト収入</p>
-                @if (($summary->shift_total??0)== 0)
+                @if ($shiftTotal== 0)
                 <h2>未登録</h2>
                 @else
-                <h2>{{ number_format($summary->shift_total) }}円</h2>
+                <h2>{{ number_format($shiftTotal) }}円</h2>
                 @endif
                 </div>
 
                 <div class="card">
                 <p>{{ $year }}年{{ $month }}月のボーナス</p>
-                @if (($summary->bonus_total??0) == 0)
+                @if ($bonusTotal == 0)
                 <h2>未登録</h2>
                 @else
-                <h2>{{ number_format($summary->bonus_total) }}円</h2>
+                <h2>{{ number_format($bonusTotal) }}円</h2>
                 @endif
                 </div>
 
@@ -126,13 +126,21 @@
                 @if (($summary->expense_total??0) == 0)
                 <h2>未登録</h2>
                 @else
-                <h2>{{ number_format($summary->expense_total) }}円</h2>
+                <h2>{{ number_format($expenseTotal) }}円</h2>
                 @endif
                 </div>
 
                 <div class="card">
+                <p>{{ $year }}年{{ $month }}月額</p>
+                @if ($savingsTotal == 0)
+                <h2>未登録</h2>
+                @else
+                <h2>{{ number_format($savingsTotal) }}円</h2>
+                @endif
+                </div>
+                <div class="card">
                 <p>{{ $year }}年{{ $month }}月の貯金額</p>
-                @if (($totalSavings??0) == 0)
+                @if ($totalSavings == 0)
                 <h2>未登録</h2>
                 @else
                 <h2>{{ number_format($totalSavings) }}円</h2>
