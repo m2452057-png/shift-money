@@ -147,6 +147,14 @@
                     <p>{{ number_format($moneyGoal) }}目標まで残り</p>
                     <h2 style="color:#EA580C;">{{ number_format($totalgoal) }}円</h2>
                 </div>
+                 <div class="card">
+                <p>{{ $year }}年平均月収{{ number_format($saveAverage) }}円</p>
+                @if ($averageTotal == 0)
+                <h2>未登録</h2>
+                @else
+                <h2>{{ number_format($averageTotal, 2) }}ヶ月</h2>
+                @endif
+                </div>
 
             </div>
 
