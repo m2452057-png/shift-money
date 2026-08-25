@@ -96,12 +96,9 @@
                 <main class="main">
                 <h1>ダッシュボード</h1>
 
-                <p class="message">
-                現在の収支状況を確認できます。
-                </p>
-
         {{-- 4つの金額カード --}}
-                <div class="cards">
+            <div class="cards"
+            style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%;">
 
                 <div class="card">
                 <p>{{ $year }}年{{ $month }}月のシフト収入</p>
@@ -112,43 +109,43 @@
                 @endif
                 </div>
 
-                <div class="card">
+                <div class="card"style="color: #25eb8b;}">
                 <p>{{ $year }}年{{ $month }}月のボーナス</p>
                 @if ($bonusTotal == 0)
-                <h2>未登録</h2>
+                <h2 style="color: #25eb8b;">未登録</h2>
                 @else
-                <h2>{{ number_format($bonusTotal) }}円</h2>
+                <h2 style="color: #25eb8b;">{{ number_format($bonusTotal) }}円</h2>
                 @endif
                 </div>
 
-                <div class="card">
+                <div class="card"style="color: #ff0000;}">
                 <p>{{ $year }}年{{ $month }}月の浪費</p>
                 @if (($summary->expense_total??0) == 0)
-                <h2>未登録</h2>
+                <h2 style="color: #ff0000;">未登録</h2>
                 @else
-                <h2>{{ number_format($expenseTotal) }}円</h2>
+                <h2 style="color: #ff0000;">{{ number_format($expenseTotal) }}円</h2>
                 @endif
                 </div>
 
                 <div class="card">
                 <p>{{ $year }}年{{ $month }}月額</p>
                 @if ($savingsTotal == 0)
-                <h2>未登録</h2>
+                <h2 style="color: #7C3AED;">未登録</h2>
                 @else
-                <h2>{{ number_format($savingsTotal) }}円</h2>
+                <h2 style="color: #7C3AED;">{{ number_format($savingsTotal) }}円</h2>
                 @endif
                 </div>
                 <div class="card">
                 <p>{{ $year }}年{{ $month }}月の貯金額</p>
                 @if ($totalSavings == 0)
-                <h2>未登録</h2>
+                <h2 style="color:#059669;">未登録</h2>
                 @else
-                <h2>{{ number_format($totalSavings) }}円</h2>
+                <h2 style="color:#059669;">{{ number_format($totalSavings) }}円</h2>
                 @endif
                 </div>
                 <div class="card">
-                    <p>{{ $year }}年{{ $month }}月の目標まで残り</p>
-                    <h2>{{ number_format($totalgoal) }}円</h2>
+                    <p>{{ number_format($moneyGoal) }}目標まで残り</p>
+                    <h2 style="color:#EA580C;">{{ number_format($totalgoal) }}円</h2>
                 </div>
 
             </div>

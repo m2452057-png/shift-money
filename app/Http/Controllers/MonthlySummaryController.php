@@ -33,13 +33,12 @@ class MonthlySummaryController extends Controller
         $savingsTotal = $shiftTotal + $bonusTotal - $expenseTotal; 
         
 
-        
         // 今回は合計を計算した後に保存
         $summary = MonthlySummary::updateOrCreate(
         [
-            'user_id' => Auth::id(),
-            'year' => now()->year,
-            'month' => now()->month,
+            'user_id' => $userId,
+            'year' => $year,
+            'month' => $month,
         ],
         [
             'shift_total' => $shiftTotal,
@@ -51,6 +50,9 @@ class MonthlySummaryController extends Controller
       // 4. 画面を表示
         return view('login.dashboard', 
         compact(
+        'year',
+        'month',
+        'summary',
         'shiftTotal',
         'expenseTotal',
         'bonusTotal',
