@@ -22,8 +22,8 @@ class SavingGoalController extends Controller
     {
         // フォームの入力内容をバリデーションする
         $validated = $request->validate([
-            'money_savings' => 'nullable|integer|min:0',
-            'money_goal' => 'nullable|integer|min:0',
+            'money_savings' => 'required|integer|min:0',
+            'money_goal' => 'required|integer|min:0',
         ]);
 
         // DB保存
@@ -31,8 +31,8 @@ class SavingGoalController extends Controller
         SavingGoal::updateOrCreate(
             ['user_id' => Auth::id()],
             [
-                'money_savings' => $validated['money_savings'] ?? null,
-                'money_goal' => $validated['money_goal'] ?? null,
+                'money_savings' => $validated['money_savings'],
+                'money_goal' => $validated['money_goal'],
             ]
         );
 
