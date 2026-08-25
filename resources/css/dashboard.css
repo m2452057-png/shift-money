@@ -113,9 +113,18 @@ body {
 
 /* 4枚のカードを横に並べる */
 .cards {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(3,minmax(0, 1fr));
+    gap: 20px;
+    width: 100%;
+}
+.cards.card {
+    width: 100%;
+    min-width: 0;
+    margin: 0 ;
+}
+.main{
+    min-width: 0;
 }
 
 /* カード1枚分 */
@@ -235,6 +244,8 @@ body {
 
     /* カードを縦に並べる */
     .cards {
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 20px;
     }
 }

@@ -189,7 +189,8 @@ $totalgoal = $moneyGoal-$totalSavings;
     'month',
     'summary',
     'totalSavings',
-    'totalgoal'
+    'totalgoal',
+    'moneyGoal'
     ));
 }
 
