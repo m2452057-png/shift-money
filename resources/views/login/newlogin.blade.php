@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ログイン</title>
+<title>新規登録</title>
 
  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -18,16 +18,14 @@
 <div class="login-container">
     <h1 class="app-title">
 <i class="bi bi-wallet2"></i>
-Shift Money
-</h1>
-
+Shift Money<br>新規登録
 
 
 <p class="app-subtitle">
 シフト・家計簿管理アプリ
 </p>
     <div class="login-card">
-<form method="POST" action="{{ route('login.login') }}">
+<form method="POST" action="{{ route('login.create') }}">
 @csrf
 @error('login')
 
@@ -37,7 +35,23 @@ Shift Money
 
 @enderror
 
-<label for="email" class="form-label">ユーザーID</label>
+<label for="name" class="form-label">新規ユーザーID</label>
+<input 
+    type="text" 
+    class="login-input" 
+    id="name" 
+    name="name"
+    value="{{ old('name') }}"
+    placeholder="新規ユーザー（名前）"
+    required
+    autofocus
+    >
+    @error('name')
+        <div class="text-danger">
+            {{ $message }}
+        </div>
+    @enderror
+</input>
 
 <input 
     type="text" 
@@ -45,7 +59,7 @@ Shift Money
     id="email" 
     name="email"
     value="{{ old('email') }}"
-    placeholder="ユーザーID"
+    placeholder="新規メールアドレス"
     required
     autofocus
     >
@@ -61,7 +75,7 @@ Shift Money
     id="password" 
     type="password"  
     name="password" 
-    placeholder="パスワード"
+    placeholder="新規パスワード"
     autocomplete="current-password"
     required
     >
@@ -71,11 +85,11 @@ Shift Money
             {{ $message }}
         </div>
     @enderror
-    </label>
-     <a href="{{ route('newlogin') }}">新規登録</a>
+    
+    
 <button type="submit" class="login-button">
     <i class="bi bi-box-arrow-in-right"></i>
-    ログイン
+    保存
 </button>
 </form>
 
