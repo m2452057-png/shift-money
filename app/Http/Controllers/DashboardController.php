@@ -175,9 +175,10 @@ $totalgoal = $moneyGoal-$totalSavings;
 
 $saveAverage=MonthlySummary::where('user_id', Auth::id())
 ->get();
-foreach ($saveAverage as $average) {
     $total=0;
     $count=0;
+foreach ($saveAverage as $average) {
+
     $savings_total = $average->savings_total;
     
     if ($savings_total != 0) {
@@ -190,6 +191,18 @@ foreach ($saveAverage as $average) {
     }
 }
 $averageTotal =$totalgoal /$saveAverage;
+
+$max=MonthlySummary::where('user_id', Auth::id())
+->where('year', $year)
+->max('savings_total');
+$maxTotal=$totalgoal /$max;
+$min=MonthlySummary::where('user_id', Auth::id())
+->where('year', $year)
+->where('savings_total','!=',0)
+->min('savings_total');
+
+$minTotal=$totalgoal /$min;
+
 
 
 
@@ -212,6 +225,10 @@ $averageTotal =$totalgoal /$saveAverage;
     'moneyGoal',
     'saveAverage',
     'averageTotal',
+    'max',
+    'maxTotal',
+    'min',
+    'minTotal'
 
     ));
 }

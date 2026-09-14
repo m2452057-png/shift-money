@@ -98,23 +98,24 @@
 
         {{-- 4つの金額カード --}}
             <div class="cards"
-            style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%;">
+            style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; width: 100%;">
 
                 <div class="card">
                 <p>{{ $year }}年{{ $month }}月のシフト収入</p>
                 @if ($shiftTotal== 0)
                 <h2>未登録</h2>
                 @else
-                <h2>{{ number_format($shiftTotal) }}円</h2>
+                <h2>+{{ number_format($shiftTotal) }}円</h2>
                 @endif
                 </div>
+            
 
                 <div class="card"style="color: #25eb8b;}">
                 <p>{{ $year }}年{{ $month }}月のボーナス</p>
                 @if ($bonusTotal == 0)
                 <h2 style="color: #25eb8b;">未登録</h2>
                 @else
-                <h2 style="color: #25eb8b;">{{ number_format($bonusTotal) }}円</h2>
+                <h2 style="color: #25eb8b;">+{{ number_format($bonusTotal) }}円</h2>
                 @endif
                 </div>
 
@@ -123,7 +124,7 @@
                 @if (($summary->expense_total??0) == 0)
                 <h2 style="color: #ff0000;">未登録</h2>
                 @else
-                <h2 style="color: #ff0000;">{{ number_format($expenseTotal) }}円</h2>
+                <h2 style="color: #ff0000;">-{{ number_format($expenseTotal) }}円</h2>
                 @endif
                 </div>
 
@@ -147,14 +148,30 @@
                     <p>{{ number_format($moneyGoal) }}目標まで残り</p>
                     <h2 style="color:#EA580C;">{{ number_format($totalgoal) }}円</h2>
                 </div>
-                 <div class="card">
+            <div class="card" style="color:#000000;">
                 <p>{{ $year }}年平均月収{{ number_format($saveAverage) }}円</p>
                 @if ($averageTotal == 0)
                 <h2>未登録</h2>
                 @else
                 <h2>{{ number_format($averageTotal, 2) }}ヶ月</h2>
                 @endif
-                </div>
+            </div>
+            <div class="card" style="color:#000000;">
+                <p>{{ $year }}年最大月収{{ number_format($max) }}円</p>
+                @if ($maxTotal == 0)
+                <h2>未登録</h2>
+                @else
+                <h2>{{ number_format($maxTotal, 2) }}ヶ月</h2>
+                @endif
+            </div>
+             <div class="card" style="color:#000000;">
+                <p>{{ $year }}年最小月収{{ number_format($min) }}円</p>
+                @if ($min == 0)
+                <h2>未登録</h2>
+                @else
+                <h2>{{ number_format($minTotal, 2) }}ヶ月</h2>
+                @endif
+            </div>
 
             </div>
 
@@ -182,7 +199,7 @@
             // ここから下はネットに頼ってしまった
             initialDate: "{{sprintf('%04d-%02d-01', $year, $month)}}",
             datesSet: function (info) {
-    const date = info.view.currentStart;
+    const date = info.view.calendar.getDate();
     const displayedYear = date.getFullYear();
     const displayedMonth = date.getMonth() + 1;
 

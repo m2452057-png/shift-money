@@ -25,6 +25,11 @@ Route::get('/login', [LoginController::class, 'index'])
 Route::post('/login', [LoginController::class, 'login'])
 ->name('login.login');
 
+Route::get('/newlogin', [LoginController::class, 'newlogin'])
+->name('newlogin');
+Route::post('/newlogin', [LoginController::class, 'create'])
+->name('login.create');
+
 Route::middleware('auth')
 ->group(function () {
     // ダッシュボード画面
@@ -46,6 +51,7 @@ Route::middleware('auth')
     ->name('expenses.store');
     Route::post('/bonus-input',[BonusController::class, 'store'])
     ->name('bonus.store');
+    
 
     // 一覧・編集・更新・削除
     Route::resource('shifts', ShiftController::class)

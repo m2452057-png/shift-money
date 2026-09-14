@@ -19,6 +19,8 @@
     <h1 class="app-title">
 <i class="bi bi-wallet2"></i>
 Shift Money
+</h1>
+
 
 
 <p class="app-subtitle">
@@ -69,12 +71,8 @@ Shift Money
             {{ $message }}
         </div>
     @enderror
-    
-    {{-- ログイン状態を保持 --}}
-    <label for="remember_me" class="login-remember">
-        <input id="remember_me" type="checkbox" name="remember">
-        <span>ログイン状態を保持する</span>
     </label>
+     <a href="{{ route('newlogin') }}">新規登録</a>
 <button type="submit" class="login-button">
     <i class="bi bi-box-arrow-in-right"></i>
     ログイン
