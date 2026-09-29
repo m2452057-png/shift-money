@@ -236,3 +236,17 @@ body {
         gap: 12px;
     }
 }
+@media (max-width: 680px) {
+    .main {
+        padding: 75px 0 20px;
+    }
+
+    .cards {
+        padding: 0 6px;
+    }
+
+    .content {
+        padding: 10px 6px;
+        border-radius: 0;
+    }
+}
