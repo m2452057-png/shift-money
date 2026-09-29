@@ -236,17 +236,30 @@ body {
         gap: 12px;
     }
 }
+/* スマホ：カレンダーの1日分を広くして横にスワイプ可能にする */
 @media (max-width: 680px) {
-    .main {
-        padding: 75px 0 20px;
+    .calendar-scroll {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
-    .cards {
+    .calendar-scroll #calendar {
+        min-width: 700px;
         padding: 0 6px;
     }
 
-    .content {
-        padding: 10px 6px;
-        border-radius: 0;
+    #calendar .fc-daygrid-day-frame {
+        min-height: 100px;
+    }
+
+    #calendar .fc-daygrid-event {
+        white-space: normal;
+        line-height: 1.35;
+    }
+
+    #calendar .fc-event-time,
+    #calendar .fc-event-title {
+        white-space: normal;
     }
 }
