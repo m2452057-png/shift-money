@@ -48,12 +48,24 @@ return Application::configure(basePath: dirname(__DIR__))
             $current = $exception;
 
             for ($depth = 0; $current !== null && $depth < 5; $depth++) {
+                $message = preg_replace(
+                    [
+                        '#(?:postgres(?:ql)?://)[^@\\s]+@#i',
+                        '#(password\\s*[=:]\\s*)[^\\s;]+#i',
+                    ],
+                    ['$0', '$1[redacted]'],
+                    $current->getMessage(),
+                );
+
+                $message = preg_replace('#(?:postgres(?:ql)?://)[^@\\s]+@#i', 'postgresql://[redacted]@', $message);
+
                 $summaries[] = sprintf(
-                    '%s (code=%s) at %s:%d',
+                    '%s (code=%s) at %s:%d: %s',
                     $current::class,
                     (string) $current->getCode(),
                     basename($current->getFile()),
                     $current->getLine(),
+                    $message,
                 );
                 $current = $current->getPrevious();
             }
