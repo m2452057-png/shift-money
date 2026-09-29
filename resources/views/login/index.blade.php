@@ -37,7 +37,7 @@ Shift Money
 
 @enderror
 
-<label for="email" class="form-label">ユーザーID</label>
+<label for="email" class="form-label">ユーザーID（メールアドレス）</label>
 
 <input 
     type="text" 
@@ -45,7 +45,7 @@ Shift Money
     id="email" 
     name="email"
     value="{{ old('email') }}"
-    placeholder="ユーザーID"
+    placeholder="ユーザーID（メールアドレス）"
     required
     autofocus
     >
