@@ -180,10 +180,11 @@
                     {{-- 下の大きな場所 --}}
                     <div class="content">
                     <h2>スケジュール</h2>
-
-                    <div id="calendar">
-
+                    <div class="calendar-scroll">
+                        <div id="calendar"></div>
                     </div>
+
+                    
                         </div>
 
         </main>
