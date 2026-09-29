@@ -246,6 +246,7 @@ body {
 }
 
 /* スマホ用：カレンダーを見やすくする */
+
 @media (max-width: 800px) {
     .cards {
         grid-template-columns: repeat(2, minmax(0, 1fr));
