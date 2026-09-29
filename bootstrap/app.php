@@ -5,6 +5,16 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 
+$databaseUrl = env('DATABASE_URL');
+
+if (env('VERCEL') && is_string($databaseUrl)) {
+    $databaseHost = parse_url($databaseUrl, PHP_URL_HOST);
+
+    if (is_string($databaseHost) && preg_match('/^(ep-[a-z0-9-]+?)(?:-pooler)?\./', $databaseHost, $matches)) {
+        putenv('PGOPTIONS=endpoint='.$matches[1]);
+    }
+}
+
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -37,44 +47,6 @@ return Application::configure(basePath: dirname(__DIR__))
             }
 
             error_log('LARAVEL_ERROR '.implode(' <- ', $summaries));
-        });
-
-        $exceptions->render(function (Throwable $exception, Request $request) {
-            if (! env('VERCEL') || ! $request->isMethod('post') || ! $request->is('login')) {
-                return null;
-            }
-
-            $summaries = [];
-            $current = $exception;
-
-            for ($depth = 0; $current !== null && $depth < 5; $depth++) {
-                $message = preg_replace(
-                    [
-                        '#(?:postgres(?:ql)?://)[^@\\s]+@#i',
-                        '#(password\\s*[=:]\\s*)[^\\s;]+#i',
-                    ],
-                    ['$0', '$1[redacted]'],
-                    $current->getMessage(),
-                );
-
-                $message = preg_replace('#(?:postgres(?:ql)?://)[^@\\s]+@#i', 'postgresql://[redacted]@', $message);
-
-                $summaries[] = sprintf(
-                    '%s (code=%s) at %s:%d: %s',
-                    $current::class,
-                    (string) $current->getCode(),
-                    basename($current->getFile()),
-                    $current->getLine(),
-                    $message,
-                );
-                $current = $current->getPrevious();
-            }
-
-            return response(
-                "Login diagnostic\n\n".implode("\nCaused by: ", $summaries),
-                500,
-                ['Content-Type' => 'text/plain; charset=UTF-8'],
-            );
         });
 
         $exceptions->shouldRenderJsonWhen(
