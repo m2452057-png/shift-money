@@ -17,6 +17,8 @@ body {
 }
 .top-space {
     position: relative;
+    flex:0 0 0;
+    width: 0;
     background-color: #f5f5f5;
 }
 
@@ -238,28 +240,26 @@ body {
 }
 /* スマホ：カレンダーの1日分を広くして横にスワイプ可能にする */
 @media (max-width: 680px) {
+    .main {
+    padding: 75px 6px 20px;
+}
+
+.content {
+    padding: 10px 0;
+    border-radius: 0;
+}
     .calendar-scroll {
-        width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
 
-    .calendar-scroll #calendar {
-        min-width: 700px;
-        padding: 0 6px;
-    }
+.calendar-scroll #calendar {
+    min-width: 430px;
+    padding: 0;
+}
 
-    #calendar .fc-daygrid-day-frame {
-        min-height: 100px;
-    }
-
-    #calendar .fc-daygrid-event {
-        white-space: normal;
-        line-height: 1.35;
-    }
-
-    #calendar .fc-event-time,
-    #calendar .fc-event-title {
-        white-space: normal;
-    }
+#calendar .fc-daygrid-day-frame {
+    min-height: 85px;
+}
 }
