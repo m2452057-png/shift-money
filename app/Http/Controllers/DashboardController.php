@@ -69,7 +69,7 @@ public function dashboard(Request $request): View
     'borderColor' => '#3b82f6',
     'url' => route('shifts.edit', ['shift' => $shift->id]),
         ];
-        
+
     }
     foreach($expenses as $expense){
         // 浪費金額から「¥5,000円」を作る
@@ -173,6 +173,20 @@ $moneyGoal = SavingGoal::where(
 // 残りの貯金目標金額=貯金目標の金額-合計貯金額
 $totalgoal = $moneyGoal-$totalSavings;
 
+$max = MonthlySummary::where('user_id', Auth::id())
+->where('year', $year)
+->where('savings_total', '>', 0)
+->max('savings_total')??0;
+$maxTotal= $max>0? $totalgoal/$max:0;
+
+$min = MonthlySummary::where('user_id', Auth::id())
+->where('year', $year)
+
+->where('savings_total', '!=', 0)
+->min('savings_total')??0;
+$minTotal = $min>0?$totalgoal/$min:0;
+
+
 $saveAverage=MonthlySummary::where('user_id', Auth::id())
 ->get();
     $total=0;
@@ -180,28 +194,22 @@ $saveAverage=MonthlySummary::where('user_id', Auth::id())
 foreach ($saveAverage as $average) {
 
     $savings_total = $average->savings_total;
-    
+
     if ($savings_total != 0) {
     $total+=$average->savings_total;
     $count++;
 
     }
     if( $count>0){
+
         $saveAverage=$total/$count;
     }
+    if($count===0){
+        $saveAverage=0;
+    }
 }
-$averageTotal =$totalgoal /$saveAverage;
+$averageTotal =$saveAverage>0 ? $totalgoal /$saveAverage : 0;
 
-$max=MonthlySummary::where('user_id', Auth::id())
-->where('year', $year)
-->max('savings_total');
-$maxTotal=$totalgoal /$max;
-$min=MonthlySummary::where('user_id', Auth::id())
-->where('year', $year)
-->where('savings_total','!=',0)
-->min('savings_total');
-
-$minTotal=$totalgoal /$min;
 
 
 
@@ -225,10 +233,12 @@ $minTotal=$totalgoal /$min;
     'moneyGoal',
     'saveAverage',
     'averageTotal',
+
     'max',
     'maxTotal',
     'min',
-    'minTotal'
+    'minTotal',
+    'count'
 
     ));
 }
