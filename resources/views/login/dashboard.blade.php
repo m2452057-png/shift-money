@@ -196,12 +196,9 @@
     document.addEventListener('DOMContentLoaded', function () {
         const calendarElement = document.getElementById('calendar');
 
-        function isMobile() {
-            return window.innerWidth <= 768;
-        }
 
         const calendar = new FullCalendar.Calendar(calendarElement, {
-            initialView: isMobile() ? 'listMonth' : 'dayGridMonth',
+            initialView: 'dayGridMonth',
             // ここから下はネットに頼ってしまった
             initialDate: "{{sprintf('%04d-%02d-01', $year, $month)}}",
             datesSet: function (info) {
@@ -241,7 +238,7 @@
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
             },
 
             buttonText: {
