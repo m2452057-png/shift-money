@@ -14,7 +14,9 @@
 /.zed
 /auth.json
 /node_modules
-/public/build
+# Heroku's PHP buildpack does not compile Vite assets, so deploy the production build.
+!/public/build/
+!/public/build/**
 /public/fonts-manifest.dev.json
 /public/hot
 /public/storage

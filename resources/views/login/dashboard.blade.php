@@ -144,10 +144,13 @@
                 <h2 style="color:#059669;">{{ number_format($totalSavings) }}円</h2>
                 @endif
                 </div>
+
                 <div class="card">
                     <p>{{ number_format($moneyGoal) }}目標まで残り</p>
                     <h2 style="color:#EA580C;">{{ number_format($totalgoal) }}円</h2>
                 </div>
+
+
             <div class="card" style="color:#000000;">
                 <p>{{ $year }}年平均月収{{ number_format($saveAverage) }}円</p>
                 @if ($averageTotal == 0)
