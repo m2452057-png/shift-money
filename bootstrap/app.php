@@ -15,6 +15,30 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        // Vercel truncates long stack traces from the beginning. Emit a short
+        // summary containing only exception types, codes, and source locations.
+        $exceptions->report(function (Throwable $exception): void {
+            if (! env('VERCEL')) {
+                return;
+            }
+
+            $summaries = [];
+            $current = $exception;
+
+            for ($depth = 0; $current !== null && $depth < 5; $depth++) {
+                $summaries[] = sprintf(
+                    '%s(code=%s) at %s:%d',
+                    $current::class,
+                    (string) $current->getCode(),
+                    basename($current->getFile()),
+                    $current->getLine(),
+                );
+                $current = $current->getPrevious();
+            }
+
+            error_log('LARAVEL_ERROR '.implode(' <- ', $summaries));
+        });
+
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*'),
         );
