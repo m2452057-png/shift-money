@@ -116,7 +116,7 @@ body {
     display: grid;
     grid-template-columns: repeat(3,minmax(0, 1fr));
     gap: 20px;
-    grid-auto-rows: 150px;
+    grid-auto-rows: 180px;
     width: 100%;
 }
 .cards .card {
@@ -246,57 +246,22 @@ body {
 }
 
 /* スマホ用：カレンダーを見やすくする */
-@media (max-width: 680px) {
-    .main {
-        padding: 75px 10px 20px;
+@media (max-width: 800px) {
+    .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: 170px;
+        gap: 12px;
     }
 
-    .content {
-        padding: 8px;
+    .card {
+        padding: 14px;
     }
 
-    #calendar {
-        margin-top: 10px;
+    .card p {
+        font-size: 0.9rem;
     }
 
-    /* 「前へ・今日」「2026年9月」「月・週・日・リスト」を縦に並べる */
-    #calendar .fc-header-toolbar {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: stretch;
-        gap: 10px;
-    }
-
-    #calendar .fc-toolbar-chunk {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 6px;
-    }
-
-    #calendar .fc-toolbar-title {
-        font-size: 1.45rem;
-        white-space: nowrap;
-    }
-
-    #calendar .fc-button {
-        padding: 8px 10px;
-        font-size: 0.85rem;
-    }
-
-    #calendar .fc-daygrid-day-frame {
-        min-height: 70px;
-    }
-
-    #calendar .fc-col-header-cell-cushion,
-    #calendar .fc-daygrid-day-number {
-        padding: 4px 2px;
-        font-size: 0.82rem;
+    .card h2 {
+        font-size: 1.4rem;
     }
 }
-
-
-
-
-
-
