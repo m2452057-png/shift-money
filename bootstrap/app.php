@@ -39,6 +39,32 @@ return Application::configure(basePath: dirname(__DIR__))
             error_log('LARAVEL_ERROR '.implode(' <- ', $summaries));
         });
 
+        $exceptions->render(function (Throwable $exception, Request $request) {
+            if (! env('VERCEL') || ! $request->isMethod('post') || ! $request->is('login')) {
+                return null;
+            }
+
+            $summaries = [];
+            $current = $exception;
+
+            for ($depth = 0; $current !== null && $depth < 5; $depth++) {
+                $summaries[] = sprintf(
+                    '%s (code=%s) at %s:%d',
+                    $current::class,
+                    (string) $current->getCode(),
+                    basename($current->getFile()),
+                    $current->getLine(),
+                );
+                $current = $current->getPrevious();
+            }
+
+            return response(
+                "Login diagnostic\n\n".implode("\nCaused by: ", $summaries),
+                500,
+                ['Content-Type' => 'text/plain; charset=UTF-8'],
+            );
+        });
+
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*'),
         );
