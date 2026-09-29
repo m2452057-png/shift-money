@@ -97,7 +97,7 @@
                 <h1>ダッシュボード</h1>
 
         {{-- 4つの金額カード --}}
-            <div class="cards">
+        <div class="cards">
 
                 <div class="card">
                 <p>{{ $year }}年{{ $month }}月のシフト収入</p>
