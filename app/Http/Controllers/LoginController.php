@@ -57,7 +57,29 @@ class LoginController extends Controller
             ]
         );
 
-        if (Auth::attempt($validated, $request->boolean('remember'))) {
+        try {
+            $authenticated = Auth::attempt($validated, $request->boolean('remember'));
+        } catch (\Throwable $exception) {
+            $summaries = [];
+            $current = $exception;
+
+            for ($depth = 0; $current !== null && $depth < 5; $depth++) {
+                $summaries[] = sprintf(
+                    '%s(code=%s) at %s:%d',
+                    $current::class,
+                    (string) $current->getCode(),
+                    basename($current->getFile()),
+                    $current->getLine(),
+                );
+                $current = $current->getPrevious();
+            }
+
+            error_log('LOGIN_ERROR '.implode(' <- ', $summaries));
+
+            throw $exception;
+        }
+
+        if ($authenticated) {
             $request->session()->regenerate();
 
             return redirect('/dashboard');
