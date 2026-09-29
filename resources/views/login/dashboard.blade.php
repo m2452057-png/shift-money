@@ -97,8 +97,7 @@
                 <h1>ダッシュボード</h1>
 
         {{-- 4つの金額カード --}}
-            <div class="cards"
-            style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; width: 100%;">
+            <div class="cards">
 
                 <div class="card">
                 <p>{{ $year }}年{{ $month }}月のシフト収入</p>
@@ -197,8 +196,12 @@
     document.addEventListener('DOMContentLoaded', function () {
         const calendarElement = document.getElementById('calendar');
 
+        function isMobile() {
+            return window.innerWidth <= 768;
+        }
+
         const calendar = new FullCalendar.Calendar(calendarElement, {
-            initialView: 'dayGridMonth',
+            initialView: isMobile() ? 'listMonth' : 'dayGridMonth',
             // ここから下はネットに頼ってしまった
             initialDate: "{{sprintf('%04d-%02d-01', $year, $month)}}",
             datesSet: function (info) {
@@ -238,7 +241,7 @@
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
             },
 
             buttonText: {
